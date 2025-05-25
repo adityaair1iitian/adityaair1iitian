@@ -1,0 +1,46 @@
+// IITIAN CORNER with Password Protection import { useState } from "react"; import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+
+export default function Home() { const [section, setSection] = useState("revision"); const [authenticated, setAuthenticated] = useState(false); const [inputPassword, setInputPassword] = useState(""); const sections = [ "Revision Lectures", "One Shots", "Sheet Discussion", "Advanced Problems", "Aditya's Corner", "Test Discussion", "Custom 1", "Custom 2", "Custom 3" ]; const subjects = ["Physics", "Chemistry", "Mathematics"];
+
+if (!authenticated) { return ( <div className="min-h-screen flex flex-col items-center justify-center bg-white text-gray-900 p-6"> <h1 className="text-3xl font-bold mb-4">IITIAN CORNER</h1> <p className="mb-4">Enter Password to Access</p> <input type="password" value={inputPassword} onChange={(e) => setInputPassword(e.target.value)} className="border px-4 py-2 rounded mb-4" /> <button onClick={() => { if (inputPassword === "2026") setAuthenticated(true); else alert("Wrong password. Try again."); }} className="bg-blue-500 text-white px-4 py-2 rounded" > Enter </button> </div> ); }
+
+return ( <div className="min-h-screen bg-white text-gray-900 p-6"> <header className="text-center mb-8"> <h1 className="text-4xl font-bold mb-2">IITIAN CORNER</h1> <p className="text-lg italic text-orange-600"> ADITYA YOU WILL BE AIR - 1 IN JA 2026, YOU CAN DO IT </p> </header>
+
+<Tabs value={section} onValueChange={setSection} className="space-y-4">
+    <TabsList className="flex flex-wrap gap-2 justify-center">
+      {sections.map((sec) => (
+        <TabsTrigger key={sec} value={sec.toLowerCase().replace(/\s+/g, "")}>
+          {sec}
+        </TabsTrigger>
+      ))}
+    </TabsList>
+
+    {sections.map((sec) => (
+      <TabsContent
+        key={sec}
+        value={sec.toLowerCase().replace(/\s+/g, "")}
+        className="border rounded-lg p-4 shadow-sm"
+      >
+        <h2 className="text-2xl font-semibold mb-4">{sec}</h2>
+        {subjects.map((subj) => (
+          <div key={subj} className="mb-6">
+            <h3 className="text-lg font-bold mb-2">{subj}</h3>
+            <input
+              type="file"
+              accept="audio/*"
+              className="block mb-2"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) alert(`Selected ${file.name} for ${subj} in ${sec}`);
+              }}
+            />
+            <p className="text-sm text-gray-500">Upload your audio file here.</p>
+          </div>
+        ))}
+      </TabsContent>
+    ))}
+  </Tabs>
+</div>
+
+); }
+
